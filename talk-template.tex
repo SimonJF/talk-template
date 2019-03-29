@@ -1,0 +1,47 @@
+\documentclass[11.5pt, aspectratio=169]{beamer}
+\input{preamble}
+\usepackage{config/presento}
+\usepackage{framed}
+\usepackage{stmaryrd}
+\usepackage{amsmath}
+\usepackage{wasysym}
+% Presento style file
+\usepackage{float,lipsum}
+\floatstyle{boxed}
+\usepackage{mathpartir}
+% custom command and packages
+\input{config/custom-command}
+\usepackage{verbatim}
+% Information
+\title{Hopefully something mildly interesting}
+\author{Simon Fowler}
+\institute{University of Edinburgh}
+\date{12th March 2019}
+
+\begin{document}
+
+% Title page
+\begin{frame}[plain]
+\titlepage
+
+
+\hfill
+\vspace{-1em}
+$
+\renewcommand*{\arraystretch}{1.8}
+\begin{array}{r}
+   \includegraphics[height=0.7cm, keepaspectratio]{images/logos/inf_uoe.png} \\
+\end{array}
+$
+\end{frame}
+
+
+\begin{frame}{A sample frame}
+  \begin{fullpageitemize}
+    \item Beamer is cool if people can't tell you're using Beamer
+  \end{fullpageitemize}
+\end{frame}
+
+\framecard{{\color{white}\bigtext{A section separator}}}
+
+\end{document}

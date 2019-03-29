@@ -1,0 +1,175 @@
+\ProvidesPackage{config/presento}
+\mode<presentation>
+
+% removing navigation symbols
+\setbeamertemplate{navigation symbols}{}
+
+% packages
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{setspace}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+% colors
+% (modified to use cs04 theme)
+\definecolor{colorlime}{HTML}{F6F792}
+\definecolor{colordarkblue}{HTML}{333745}
+\definecolor{colorblue}{HTML}{77C4D3}
+\definecolor{colorlightblue}{HTML}{DAEDE2}
+\definecolor{colorpink}{HTML}{EA2E49} % pink for titles
+\definecolor{colorlightpink}{HTML}{e86a7d} % pink for warnings
+\definecolor{colordgray}{HTML}{795548} % dark gray for note
+\definecolor{colorhgray}{HTML}{212121} % heavy dark gray for normal text
+\definecolor{colorlgray}{HTML}{FFFFFF} % background light gray
+\definecolor{colorlightgray}{HTML}{CCCCCC} % background light gray
+\definecolor{colorredorange}{HTML}{F26035}
+
+% font sizes
+\newcommand{\fontsizeone}{2.292em}
+\newcommand{\fontsizeonepointfive}{1.892em}
+\newcommand{\fontsizetwo}{1.217em}
+\newcommand{\fontsizethree}{0.875em}
+% line spaces
+\newcommand{\linespaceone}{1}
+
+% font families
+\newfontfamily{\montserratfont}[Path=fonts/,BoldFont=Montserrat-Bold]{Montserrat-Regular}
+\newfontfamily{\notosansfont}[Path=fonts/,BoldFont=NotoSans-Bold,ItalicFont=NotoSans-Italic,BoldItalicFont=NotoSans-BoldItalic,SmallCapsFont=AlegreyaSansSC-Regular]{NotoSans-Regular}
+\newfontfamily{\amaranthfont}[Path=fonts/,
+  BoldFont=Amaranth-Bold,
+  ItalicFont=Amaranth-Italic,
+  BoldItalicFont=Amaranth-BoldItalic]{Amaranth-Regular}
+
+\newcommand{\headerfont}{\amaranthfont}
+
+\newfontfamily{\hindfont}[Path=fonts/,
+  BoldFont=Hind-Bold]{Hind-Regular}
+
+  \newfontfamily{\latolightfont}[Path=fonts/]{Lato-Lig}
+%\newfontfamily{\inconsolatafont}[Path=fonts/]{Inconsolata}
+
+% beamer template changes
+\setbeamertemplate{frametitle}{
+ \vspace{0.40em}
+ \noindent
+ \hspace{-1.22em}
+ \tikz[overlay,remember picture,baseline=0.3em]{\fill[fill=colorpink]  (-0.3,0.05) rectangle (0,0.9); }\headerfont\color{colorpink}~~\insertframetitle%
+}
+
+\setmainfont[Ligatures=TeX,Path=fonts/,BoldFont=Hind-Bold,SmallCapsFont=AlegreyaSansSC-Regular]{Hind-Regular}
+\setsansfont[Ligatures=TeX,Path=fonts/,BoldFont=Hind-Bold,SmallCapsFont=AlegreyaSansSC-Regular]{Hind-Regular}
+\setmonofont{Inconsolata}
+
+
+% frame counter
+\newcounter{totalfr}
+\setbeamertemplate{footline}{
+  \ifnum\inserttotalframenumber=1
+    \setcounter{totalfr}{2}
+  \else
+     \setcounter{totalfr}{\inserttotalframenumber}
+  \fi
+  \hfill{
+    \tikz{
+      \filldraw[fill=colorblue!40, draw=colorblue!50]  (0,0) -- (0.2,0) arc (0:{\value{framenumber}*(360/(\value{totalfr}-1))}:0.2) -- (0,0);
+      \node at (0,0) {\normalsize \color{colorpink}\tiny{\insertframenumber}};
+    }
+  }
+  \hspace{2em}
+  \vspace*{1em}
+}
+
+% custom commands
+\newcommand{\hugetext}[1]{
+  {
+  \begin{spacing}{\linespaceone}
+   \fontsize{\fontsizeone}{\fontsizeone}{\headerfont #1}
+  \end{spacing}
+  }
+}
+
+\newcommand{\bigtext}[1]{
+  {
+  \begin{spacing}{\linespaceone}
+   \fontsize{\fontsizeonepointfive}{\fontsizeonepointfive}{\headerfont #1}
+  \end{spacing}
+  }
+}
+
+\newcommand{\largetext}[1]{
+ {\fontsize{\fontsizetwo}{\fontsizeone}\selectfont{#1}}
+}
+
+\newcommand{\setnote}[1]{
+ {\fontsize{\fontsizethree}{\fontsizeone}\selectfont\color{colordgray}{#1}}
+}
+
+\newcommand{\rtarrow}{$\color{colorpink}{\rightarrow}$}
+
+\newcommand{\grayout}[1]{{\selectfont\color{lightgray}{#1}}}
+
+\newcommand{\itemR}{
+ \item[\rtarrow]
+}
+
+\newcommand{\framecard}[2][colordarkblue]{
+  {\setbeamercolor{background canvas}{bg=#1}
+    \begin{frame}[plain, noframenumbering]
+    \vfill
+    \begin{center}
+     {#2}
+    \end{center}
+    \vfill
+    \end{frame}
+  }
+}
+\newcommand{\framepic}[3][1]{
+  {
+    \usebackgroundtemplate{%
+    \tikz[overlay,remember picture] \node[opacity=#1, at=(current page.center)] {
+      \includegraphics[width=\paperwidth]{#2}};
+    }
+    \begin{frame}
+    #3
+    \end{frame}
+  }
+}
+
+\newenvironment{baseitemize}
+  {\itemize[leftmargin=*]}
+  {\enditemize}
+
+\newenvironment{fullpageitemize}
+  {\itemize[nolistsep,itemsep=\fill,leftmargin=*]}
+  {\vfill\enditemize}
+
+
+% Sets the background color to be light gray and the default text color to be heavy dark gray.
+% Recommended for presenting with high quality projectors, since the high contrast of black-white is not advisable
+\setbeamercolor{background canvas}{bg=colorlgray}
+\setbeamercolor{normal text}{fg=colorhgray}
+\setbeamercolor{title}{fg=colorpink}
+\setbeamercolor{subtitle}{fg=colorpink}
+\setbeamerfont{subtitle}{family=\headerfont}
+\setbeamercolor{author}{fg=colordarkblue}
+
+\defbeamertemplate*{title page}{customized}[1][]
+{
+  \vfill
+  {\usebeamercolor[fg]{title}\hugetext{\inserttitle}}
+  {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\largetext{\insertsubtitle}\par}
+  \vfill
+  {\usebeamercolor[fg]{author}\largetext{\insertauthor}}\\
+  {\setnote{\insertinstitute}\par}
+  \vfill
+  {\setnote{\insertdate}\par}
+  \vfill
+}
+
+\let\emph\relax % there's no \RedeclareTextFontCommand
+\DeclareTextFontCommand{\emph}{\bfseries}
+\setmathrm[Path=fonts/]{TitilliumWeb-SemiBold}
+\setmathsf[Path=fonts/]{TitilliumWeb-Regular}
+\setboldmathrm[Path=fonts/, BoldFont=TitilliumWeb-Bold]{TitilliumWeb-Bold}
+

@@ -1,0 +1,237 @@
+\usepackage{amsmath, amssymb, stmaryrd, mathpartir, commath, url, longtable,hyperref,tabularx}
+
+\usepackage{forloop, microtype}
+\usepackage{wasysym}
+%\usepackage[dvipsnames]{xcolor}
+\usepackage{csquotes}
+%\usepackage{mathptmx}
+\usepackage{listings}
+\hypersetup{colorlinks=true,citecolor=blue}
+\RequirePackage{subcaption}
+\captionsetup{compatibility=false}
+\usepackage{graphicx}
+\usepackage{xspace}
+\usepackage{dirtytalk}
+\usepackage{xparse}% http://ctan.org/pkg/xparse
+\usepackage{etoolbox}% http://ctan.org/pkg/etoolbox
+\newcommand{\lambdacalc}{\ensuremath{\lambda}-calculus\xspace}
+\newenvironment{fake}[1]{\par\vspace{3pt}\noindent\textbf{#1}\itshape}{\normalfont\ignorespacesafterend\vspace{3pt}\par}
+
+\usepackage{float}
+\floatstyle{boxed}
+\restylefloat{figure}
+\usepackage{verbatim}
+
+\newcommand{\backupbegin}{
+   \newcounter{finalframe}
+   \setcounter{finalframe}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+   \setcounter{framenumber}{\value{finalframe}}
+}
+
+\setbeamercovered{%
+  again covered={\opaqueness<1->{15}}}
+
+
+
+% TIKZ STUFF
+
+
+\usepackage{amsmath,verbatim}
+
+\lstdefinelanguage{Links}{%
+  morekeywords={typename, fun, linfun, op, var, if, this, true, false, else, case, switch, handle,
+    handler, shallowhandler, open, do, sig, new, send, receive, spawnAt, spawn,
+module, request, accept, try, as, in, otherwise, catch, offer, select, raise,
+fork, spawnClient, cancel, catch},%
+  sensitive=t, %
+  comment=[l]{\#\ },%
+  escapeinside={(*}{*)},%
+  morestring=[d]{"},%
+  keywordstyle=\color{blue},
+  showstringspaces=false
+  %frame = single
+ }
+
+% Links style
+\lstset{
+  basicstyle=\linespread{1.3}\ttfamily\large,
+  keywordstyle=\bfseries,
+  language=Links,
+  backgroundcolor=\color{white}
+}
+
+
+\usepackage{expl3,xparse}
+\makeatletter
+\let\old@lstKV@SwitchCases\lstKV@SwitchCases
+\def\lstKV@SwitchCases#1#2#3{}
+\makeatother
+\usepackage{lstlinebgrd}
+\makeatletter
+\let\lstKV@SwitchCases\old@lstKV@SwitchCases
+
+\lst@Key{numbers}{none}{%
+    \def\lst@PlaceNumber{\lst@linebgrd}%
+    \lstKV@SwitchCases{#1}%
+    {none:\\%
+     left:\def\lst@PlaceNumber{\llap{\normalfont
+                \lst@numberstyle{\thelstnumber}\kern\lst@numbersep}\lst@linebgrd}\\%
+     right:\def\lst@PlaceNumber{\rlap{\normalfont
+                \kern\linewidth \kern\lst@numbersep
+                \lst@numberstyle{\thelstnumber}}\lst@linebgrd}%
+    }{\PackageError{Listings}{Numbers #1 unknown}\@ehc}}
+\makeatother
+
+\ExplSyntaxOn
+\NewDocumentCommand \lstcolorlines { O{green} m }
+{
+  \clist_if_in:nVTF { #2 } { \the\value{lstnumber} }{ \color{#1} }{\color{white}}
+}
+\ExplSyntaxOff
+\newcommand{\textl}{\text{\lightning}}
+
+
+\newcommand{\calcwd}[1]{\mathbf{\mathbf{#1}}}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\lightningnu}[1]{\nu #1\lightning}
+\newcommand{\gvqueue}[4]{#1(#2){\leftrightsquigarrow} #3(#4)}
+\newcommand{\mkwd}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\gvsend}[2]{\calcwd{send} \: #1 \: #2}
+\newcommand{\gvrecv}[1]{\calcwd{receive} \: #1}
+\newcommand{\gvcancel}[1]{\calcwd{cancel} \app #1}
+\newcommand{\gvclose}[1]{\calcwd{close} \app #1}
+\newcommand{\gvcancelup}[1]{\calcwd{cancel} \app #1}
+\newcommand{\gvout}[2]{!{#1}.{#2}}
+\newcommand{\gvin}[2]{?{#1}.{#2}}
+\newcommand{\gvend}{\mathsf{End}\xspace}
+\newcommand{\gvfork}[1]{\calcwd{fork} \, #1}
+\newcommand{\app}{\:}
+\newcommand{\inl}[1]{\calcwd{inl} \app #1}
+\newcommand{\inr}[1]{\calcwd{inr} \app #1}
+\newcommand{\gvcase}[2]{\calcwd{case} \: #1 \: \calcwd{of} \: \{ #2 \}  }
+\newcommand{\gvlet}[3]{\calcwd{let} \: #1 = #2 \: \calcwd{in} \: #3}
+\newcommand{\tryasinotherwise}[4]{\calcwd{try} \: #1 \: \calcwd{as} \: #2 \: \calcwd{in} \: #3 \: \calcwd{otherwise} \: #4}
+\newcommand{\raiseexn}{\calcwd{raise}\xspace}
+\newcommand{\un}[1]{\mkwd{un}(#1)}
+\newcommand{\gvdual}[1]{\overline{#1}}
+%\newcommand{\compat}{\asymp}
+\newcommand{\evalperhaps}{\eval^?}
+\newcommand{\evalstar}{\eval^*}
+\newcommand{\scancel}[1]{\text{\lightning} #1}
+\newcommand{\scancelmv}[1]{#1 \lightning}
+\newcommand{\config}[1]{\mathcal{#1}}
+\newcommand{\seq}[1]{\overrightarrow{#1}}
+\newcommand{\fv}[1]{\mathsf{fv}(#1)}
+%\newcommand{\fcv}[1]{\mathsf{fcv}(#1)}
+\newcommand{\fvs}[1]{\mathsf{fvs}(#1)}
+\newcommand{\fn}[1]{\mathsf{fn}(#1)}
+\newcommand{\fcvs}[1]{\fn{#1}}
+\newcommand{\chansharp}[1]{#1^{\sharp}}
+\newcommand{\chanflat}[1]{#1^{\flat}}
+\newcommand{\without}{/}
+\newcommand{\equivceval}{\equiv \longrightarrow_{\textsf{C}} \equiv}
+\newcommand{\cevalthick}{\Longrightarrow_{\textsf{C}}}
+\newcommand{\ceval}{\quad \longrightarrow \quad}
+\newcommand{\teval}{\longrightarrow_{\textsf{M}}}
+\newcommand{\eps}[1]{\mkwd{eps}(#1)}
+\newcommand{\affected}[1]{\mkwd{affected}(#1)}
+\newcommand{\halt}{\calcwd{halt}\xspace}
+\newcommand{\bcirc}{\bullet}
+\newcommand{\wcirc}{\circ}
+\newcommand{\disable}[1]{\mkwd{disable}(#1)}
+
+\newcommand{\blocked}[2]{\mkwd{blocked}(#1, #2)}
+\newcommand{\depends}[3]{\mkwd{depends}(#1, #2, #3)}
+\newcommand{\deadlocked}[1]{\mkwd{deadlocked}(#1)}
+
+\newcommand{\Ceval}{\Longrightarrow_{\textsf{C}}}
+
+\newcommand{\dom}[1]{\mkwd{dom}(#1)}
+
+\newenvironment{remark}{\paragraph{Remark.}}{\hfill \tiny{$\square$}}
+%\newtheorem{remark}{Remark}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem{proposition}{Proposition}
+%\newtheorem{corollary}{Corollary}
+%\newtheorem{definition}{Definition}
+
+
+\newcommand{\defeq}{\triangleq}
+
+\newcommand{\todo}[1]{{\noindent\small\color{red} \framebox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{\textbf{TODO:} #1}}}}
+\newenvironment{subcase}[1]
+  {\textbf{Subcase #1} \hfill \\
+  \begin{adjustwidth}{0.25cm}{}}
+  {\end{adjustwidth}}
+
+\newenvironment{proofcase}[1]
+  {\totheleft{\textbf{Case \textsc{#1}}}}
+  {}
+\newcommand{\lto}{\multimap}
+\newcommand{\proofstep}[1]{
+  \begin{compactitem}
+  \item #1
+  \end{compactitem}
+}
+
+\newcommand{\names}[1]{\mkwd{names}(#1)}
+
+\arraycolsep=1pt%\def\arraystretch{2.2}
+
+\newcommand{\transl}[1]{\llbracket #1 \rrbracket}
+\newcommand{\stranslateb}[1]{\mathcal{S}\llparenthesis #1 \rrparenthesis}
+\newcommand{\ttranslateb}[1]{\mathcal{T}\llparenthesis #1 \rrparenthesis}
+\newcommand{\etranslateb}[1]{\mathcal{E}\llparenthesis #1 \rrparenthesis}
+\newcommand{\ptranslateb}[1]{\mathcal{P}\llparenthesis #1 \rrparenthesis}
+
+\newcommand{\gvoutone}[1]{{!}#1}
+\newcommand{\gvinone}[1]{{?}#1}
+\newcommand{\letintwo}[2]{\calcwd{let} \: #1 = #2 \: \calcwd{in}}
+\newcommand{\totheleft}[1]{\begin{flushleft}#1\end{flushleft}}
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.85]{beramono}
+\newcommand\doubleplus{+\kern-1.3ex+\kern0.8ex}
+\newcommand{\metadef}[1]{\calcwd{#1}}
+
+
+\newcommand{\runtimechan}[2]{\mkwd{Channel}(#1, #2)}
+\newcommand{\closure}[2]{\langle #1, #2 \rangle}
+%\newcommand{\boldleft}{\textbf{\{ }}
+%\newcommand{\boldright}{\textbf{ \}}}
+\newcommand{\contained}[1]{\metadef{Channels}(#1)}
+
+\newcommand{\ba}{\begin{array}}
+\newcommand{\ea}{\end{array}}
+
+\newcommand{\bl}{\ba[t]{@{}l@{}}}
+\newcommand{\el}{\ea}
+
+
+\newcommand{\triestosend}[4]{{#1} \xRightarrow[#4]{#2} {#3}}
+
+\newcommand{\notsmall}{}
+
+\newcommand{\oftype}{\,{:}\,}
+
+\newcommand{\sendpair}[2]{\calcwd{send} \: (#1, #2)}
+
+%\renewcommand{\paragraph}[1]{\textbf{\textit{#1}}}
+\usepackage{tikz-cd}
+
+\newcommand{\exnty}{\mkwd{Exn}\xspace}
+\newcommand{\raiseexnP}[1]{\calcwd{raise} \: #1}
+\newcommand{\tryinunless}[4]{\calcwd{try} \: #1 \: \calcwd{as} \: #2 \:
+    \calcwd{in} \: #3 \: \calcwd{unless} \: #4}
+
+\newcommand{\handled}[1]{\mkwd{Handled}(#1)}
+
+\newcommand{\highlight}[1]{{\color{colorredorange} #1} }
+\newcommand{\highlightpink}[1]{{\color{colorpink} #1} }
+\newcommand{\highlightwarning}[1]{{\color{colorlightpink} #1} }
+\newcommand{\midspace}{\; \mid{} \; }
+\setlength\tabcolsep{1.5em}
+
+\newcommand{\lact}{\lambda_{\text{act}}\xspace}
+\newcommand{\lch}{\lambda_{\text{ch}}\xspace}
