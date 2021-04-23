@@ -10,6 +10,7 @@
 \usepackage{setspace}
 \usepackage{tikz}
 \usepackage{enumitem}
+\usepackage{beramono}
 
 % colors
 % (modified to use cs04 theme)
@@ -19,11 +20,16 @@
 \definecolor{colorlightblue}{HTML}{DAEDE2}
 \definecolor{colorpink}{HTML}{EA2E49} % pink for titles
 \definecolor{colorlightpink}{HTML}{e86a7d} % pink for warnings
-\definecolor{colordgray}{HTML}{795548} % dark gray for note
+\definecolor{colordgray}{HTML}{3f3f3f} % dark gray for note
 \definecolor{colorhgray}{HTML}{212121} % heavy dark gray for normal text
 \definecolor{colorlgray}{HTML}{FFFFFF} % background light gray
 \definecolor{colorlightgray}{HTML}{CCCCCC} % background light gray
 \definecolor{colorredorange}{HTML}{F26035}
+
+\definecolor{colortitle}{HTML}{0D3258}
+\definecolor{colordgreen}{HTML}{199948}
+\definecolor{colormedblue}{HTML}{409ADB}
+\definecolor{colorauthor}{HTML}{0D3258}
 
 % font sizes
 \newcommand{\fontsizeone}{2.292em}
@@ -54,12 +60,12 @@
  \vspace{0.40em}
  \noindent
  \hspace{-1.22em}
- \tikz[overlay,remember picture,baseline=0.3em]{\fill[fill=colorpink]  (-0.3,0.05) rectangle (0,0.9); }\headerfont\color{colorpink}~~\insertframetitle%
+ \tikz[overlay,remember picture,baseline=0.3em]{\fill[fill=colortitle]  (-0.3,0.05) rectangle (0,0.9); }\headerfont\color{colortitle}~~\insertframetitle%
 }
 
 \setmainfont[Ligatures=TeX,Path=fonts/,BoldFont=Hind-Bold,SmallCapsFont=AlegreyaSansSC-Regular]{Hind-Regular}
 \setsansfont[Ligatures=TeX,Path=fonts/,BoldFont=Hind-Bold,SmallCapsFont=AlegreyaSansSC-Regular]{Hind-Regular}
-\setmonofont{Inconsolata}
+%\setmonofont{Inconsolata}
 
 
 % frame counter
@@ -73,7 +79,7 @@
   \hfill{
     \tikz{
       \filldraw[fill=colorblue!40, draw=colorblue!50]  (0,0) -- (0.2,0) arc (0:{\value{framenumber}*(360/(\value{totalfr}-1))}:0.2) -- (0,0);
-      \node at (0,0) {\normalsize \color{colorpink}\tiny{\insertframenumber}};
+      \node at (0,0) {\normalsize \color{colortitle}\tiny{\insertframenumber}};
     }
   }
   \hspace{2em}
@@ -105,7 +111,7 @@
  {\fontsize{\fontsizethree}{\fontsizeone}\selectfont\color{colordgray}{#1}}
 }
 
-\newcommand{\rtarrow}{$\color{colorpink}{\rightarrow}$}
+\newcommand{\rtarrow}{$\color{colortitle}{\rightarrow}$}
 
 \newcommand{\grayout}[1]{{\selectfont\color{lightgray}{#1}}}
 
@@ -149,10 +155,10 @@
 % Recommended for presenting with high quality projectors, since the high contrast of black-white is not advisable
 \setbeamercolor{background canvas}{bg=colorlgray}
 \setbeamercolor{normal text}{fg=colorhgray}
-\setbeamercolor{title}{fg=colorpink}
-\setbeamercolor{subtitle}{fg=colorpink}
+\setbeamercolor{title}{fg=colortitle}
+\setbeamercolor{subtitle}{fg=colortitle}
 \setbeamerfont{subtitle}{family=\headerfont}
-\setbeamercolor{author}{fg=colordarkblue}
+\setbeamercolor{author}{fg=colorauthor}
 
 \defbeamertemplate*{title page}{customized}[1][]
 {
